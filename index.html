@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+    
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Portfolio Tracker</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!--Summary Cards-->
+        <header>
+            <h1>📈 Stock Portfolio Tracker</h1>
+            <p>Track your investments</p>
+
+            <div class="summary">
+            <div class="summary-card">
+                <h3>Total Invested</h3>
+                <p id="totalInvested">$0.00</p>
+            </div>
+            <div class="summary-card">
+                <h3>Curernt Value</h3>
+                <p id="currentValue">$0.00</p>
+            </div>
+            <div class="summary-card">
+                <h3>Total Return</h3>
+                <p id="totalReturn">$0.00</p>
+            </div>
+            <div class="summary-card">
+                <h3>Return %</h3>
+                <p id="returnPercent">0.00%</p>
+            </div>
+            </div>
+        </header>
+
+        <!--Add Stock Form Section-->
+        <div class="add-stock">
+            <h2>Add Stock Position</h2>
+
+            <div class="form-grid">
+                <input type="text" id="ticker" placeholder="Ticker (e.g. AAPL)">
+                <input type="number" id="shares" placeholder="Shares" step="0.01">
+                <input type="number" id="purchasePrice" placeholder="Purchase Price" step="0.01">
+                <input type="number" id="currentPrice" placeholder="Current Price" step="0.01">
+                <input type="date" id="purchaseDate">
+
+            </div>
+            <button onclick="addStock()">Add to Portfolio</button>
+        </div>
+
+        <!--Portfolio Display Section-->
+        <div class="portfolio">
+            <h2>Your Portfolio</h2>
+            <div id="portfolioContent">
+                <div class="empty-class">
+                    <p>No stocks yet. Add your first position above!</p>
+
+                </div>
+            </div>
+        </div>
+
+        <!--Update Price Model-->
+        <div id="updateModel" class="modal">
+            <div class="modal-content">
+                <h3>Update Stock Price</h3>
+                <p><strong>Ticker: <span id="modalTicker"></span></strong></p>
+                <input type="number" id="modalCurrentPrice" placeholder="New Current Price" step="0.01">
+                <div class="modal-buttons">
+                    <button onclick="saveUpdatedPrice()">Update</button>
+                    <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+
+                </div>
+
+            </div>
+        </div>
+        <!--Link to JavaScript-->
+        <script src="js/portfolio.js"></script>
+    
+</body>
+</html>

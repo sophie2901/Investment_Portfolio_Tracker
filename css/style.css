@@ -1,0 +1,246 @@
+/* Reset and Base style*/
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Segoe UI' , 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0d4d08 0%, #065949 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Layout*/
+.container {
+    margin: 0 auto;
+}
+
+/*Header Section*/
+header{
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Summary Cards*/
+.summary{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.summary-card {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+}
+
+.summary-card h3{
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+
+}
+
+.summary-card p{
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/*Color indicators*/
+.positive {
+    color: #10b981;
+}
+.negative {
+    color: #ef4444;
+}
+
+/*Add stock form section*/
+.add-stock {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    margin-bottom: 30px;
+}
+
+.add-stock h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmaxz9150px, 1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+/*Form Elements*/
+input {
+    padding: 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+button {
+    padding: 12px 30px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;    
+}
+
+button:hover {
+    background: #5568d3;
+}
+
+/* Portfolio table sectopn*/
+.portfolio {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.portfolio h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #666;
+}
+
+tr:hover {
+    background: #f8f9fa;
+}
+
+/*Buttons*/
+.delete-btn {
+    padding: 6px 12px;
+    background: #ef4444;
+    font-size: 14px;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+.update-btn {
+    padding: 6px 12px;
+    background: #10b981;
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.update-btn:hover {
+    background: #059669;
+}
+
+/*Modal*/
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 400px;
+    width: 90%;
+}
+
+.modal-content h3 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.modal-content input {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.cancel-btn {
+    background: #4b5563;
+}
+
+/*Empty state*/
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+}
+
+/* Responsive design*/
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 10px;
+    }
+}
