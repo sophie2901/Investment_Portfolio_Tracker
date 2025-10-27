@@ -40,7 +40,7 @@
 
             <div class="form-grid">
                 <input type="text" id="ticker" placeholder="Ticker (e.g. AAPL)">
-                <input type="number" id="shares" placeholder="Shares" step="0.01">
+                <input type="number" id="shares" placeholder="Shares" step="0.0001">
                 <input type="number" id="purchasePrice" placeholder="Purchase Price" step="0.01">
                 <input type="number" id="currentPrice" placeholder="Current Price" step="0.01">
                 <input type="date" id="purchaseDate">
@@ -74,6 +74,20 @@
 
             </div>
         </div>
+
+        <!-- Update Price Modal -->
+    <div id="updateModal" class="modal">
+        <div class="modal-content">
+            <h3>Update Stock Price</h3>
+            <p><strong>Ticker: <span id="modalTicker"></span></strong></p>
+            <input type="number" id="modalCurrentPrice" placeholder="New Current Price" step="0.01">
+            <div class="modal-buttons">
+                <button onclick="saveUpdatedPrice()">Update</button>
+                <button class="cancel-btn" onclick="closeModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
         <!--Link to JavaScript-->
         <script src="js/portfolio.js"></script>
     

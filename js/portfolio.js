@@ -1,12 +1,8 @@
-/* ========================================
-   GLOBAL VARIABLES
-   ======================================== */
+/*GLOBAL VARIABLES*/
 let portfolio = [];
 let updateStockId = null;
 
-/* ========================================
-   INITIALIZATION
-   ======================================== */
+/*INITIALIZATION*/
 window.onload = function() {
     // Load saved portfolio from localStorage
     const saved = localStorage.getItem('portfolio');
@@ -22,9 +18,7 @@ window.onload = function() {
     }
 };
 
-/* ========================================
-   ADD STOCK FUNCTION
-   ======================================== */
+/*ADD STOCK FUNCTION*/
 function addStock() {
     // Get form values
     const ticker = document.getElementById('ticker').value.trim().toUpperCase();
@@ -34,7 +28,7 @@ function addStock() {
     const purchaseDate = document.getElementById('purchaseDate').value;
 
     // Validate inputs
-    if (!ticker || !shares || !purchasePrice || !currentPrice || !purchaseDate) {
+    if (!ticker || isNaN(shares) || isNaN(purchasePrice) || isNaN(currentPrice) || !purchaseDate) {
         alert('Please fill all fields');
         return;
     }
@@ -60,44 +54,69 @@ function addStock() {
     clearForm();
 }
 
-/* ========================================
-   UPDATE STOCK PRICE FUNCTIONS
-   ======================================== */
+/*UPDATE STOCK PRICE FUNCTIONS*/
 function openUpdateModal(id) {
     const stock = portfolio.find(s => s.id === id);
     if (stock) {
         updateStockId = id;
-        document.getElementById('modalTicker').textContent = stock.ticker;
-        document.getElementById('modalCurrentPrice').value = stock.currentPrice;
-        document.getElementById('updateModal').classList.add('active');
+        const modalTicker = document.getElementById('modalTicker');
+        const modalPrice = document.getElementById('modalCurrentPrice');
+        
+        if (modalTicker && modalPrice) {
+            modalTicker.textContent = stock.ticker;
+            modalPrice.value = stock.currentPrice;
+            document.getElementById('updateModal').classList.add('active');
+        } else {
+            console.error('Modal elements not found');
+        }
     }
 }
 
 function closeModal() {
-    document.getElementById('updateModal').classList.remove('active');
+    const modal = document.getElementById('updateModal');
+    if (modal) {
+        modal.classList.remove('active');
+    }
     updateStockId = null;
 }
 
 function saveUpdatedPrice() {
-    const newPrice = parseFloat(document.getElementById('modalCurrentPrice').value);
+    console.log('saveUpdatedPrice called');
+    console.log('updateStockId:', updateStockId);
     
-    if (!newPrice || newPrice <= 0) {
+    const modalPrice = document.getElementById('modalCurrentPrice');
+    console.log('modalPrice element:', modalPrice);
+    
+    if (!modalPrice) {
+        console.error('Modal price input not found');
+        return;
+    }
+
+    const newPrice = parseFloat(modalPrice.value);
+    console.log('New price value:', newPrice);
+    
+    if (isNaN(newPrice) || newPrice <= 0) {
         alert('Please enter a valid price');
         return;
     }
 
     const stock = portfolio.find(s => s.id === updateStockId);
+    console.log('Found stock:', stock);
+    
     if (stock) {
+        console.log('Old price:', stock.currentPrice);
         stock.currentPrice = newPrice;
+        console.log('New price set:', stock.currentPrice);
         savePortfolio();
         renderPortfolio();
         closeModal();
+        alert('Price updated successfully!');
+    } else {
+        console.error('Stock not found with id:', updateStockId);
     }
 }
 
-/* ========================================
-   DELETE STOCK FUNCTION
-   ======================================== */
+/*DELETE STOCK FUNCTION*/
 function deleteStock(id) {
     if (confirm('Delete this position?')) {
         portfolio = portfolio.filter(s => s.id !== id);
@@ -106,11 +125,14 @@ function deleteStock(id) {
     }
 }
 
-/* ========================================
-   RENDER PORTFOLIO FUNCTION
-   ======================================== */
+/*RENDER PORTFOLIO FUNCTION*/
 function renderPortfolio() {
     const content = document.getElementById('portfolioContent');
+
+    if (!content) {
+        console.error('Portfolio content element not found');
+        return;
+    }
 
     // Check if portfolio is empty
     if (portfolio.length === 0) {
@@ -149,7 +171,7 @@ function renderPortfolio() {
         html += `
             <tr>
                 <td><strong>${s.ticker}</strong></td>
-                <td>${s.shares.toFixed(2)}</td>
+                <td>${s.shares.toFixed(4)}</td>
                 <td>$${s.purchasePrice.toFixed(2)}</td>
                 <td>$${s.currentPrice.toFixed(2)}</td>
                 <td>$${cost.toFixed(2)}</td>
@@ -171,9 +193,7 @@ function renderPortfolio() {
     updateSummary();
 }
 
-/* ========================================
-   UPDATE SUMMARY FUNCTION
-   ======================================== */
+/*UPDATE SUMMARY FUNCTION*/
 function updateSummary() {
     let invested = 0;
     let value = 0;
@@ -188,28 +208,38 @@ function updateSummary() {
     const retPct = invested > 0 ? (ret / invested) * 100 : 0;
 
     // Update DOM
-    document.getElementById('totalInvested').textContent = `$${invested.toFixed(2)}`;
-    document.getElementById('currentValue').textContent = `$${value.toFixed(2)}`;
-    
+    const totalInvestedEl = document.getElementById('totalInvested');
+    const currentValueEl = document.getElementById('currentValue');
     const retEl = document.getElementById('totalReturn');
-    retEl.textContent = `${ret >= 0 ? '+' : ''}$${ret.toFixed(2)}`;
-    retEl.className = ret >= 0 ? 'positive' : 'negative';
-
     const pctEl = document.getElementById('returnPercent');
-    pctEl.textContent = `${retPct >= 0 ? '+' : ''}${retPct.toFixed(2)}%`;
-    pctEl.className = retPct >= 0 ? 'positive' : 'negative';
+
+    if (totalInvestedEl) totalInvestedEl.textContent = `$${invested.toFixed(2)}`;
+    if (currentValueEl) currentValueEl.textContent = `$${value.toFixed(2)}`;
+    
+    if (retEl) {
+        retEl.textContent = `${ret >= 0 ? '+' : ''}$${ret.toFixed(2)}`;
+        retEl.className = ret >= 0 ? 'positive' : 'negative';
+    }
+
+    if (pctEl) {
+        pctEl.textContent = `${retPct >= 0 ? '+' : ''}${retPct.toFixed(2)}%`;
+        pctEl.className = retPct >= 0 ? 'positive' : 'negative';
+    }
 }
 
-/* ========================================
-   UTILITY FUNCTIONS
-   ======================================== */
+/*UTILITY FUNCTIONS*/
 function savePortfolio() {
     localStorage.setItem('portfolio', JSON.stringify(portfolio));
 }
 
 function clearForm() {
-    document.getElementById('ticker').value = '';
-    document.getElementById('shares').value = '';
-    document.getElementById('purchasePrice').value = '';
-    document.getElementById('currentPrice').value = '';
+    const ticker = document.getElementById('ticker');
+    const shares = document.getElementById('shares');
+    const purchasePrice = document.getElementById('purchasePrice');
+    const currentPrice = document.getElementById('currentPrice');
+    
+    if (ticker) ticker.value = '';
+    if (shares) shares.value = '';
+    if (purchasePrice) purchasePrice.value = '';
+    if (currentPrice) currentPrice.value = '';
 }
